@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>canvas</title>
+        <script>
+            //body문서가 모두 load된 후 실행되는 콜백함수
+            function loaded(){
+                // 도화지 객체(canvas요소) 찾아오기(참조)
+                var canvas = document.getElementById('canvas1');
+                // 위에 있는 canvas에 그림을 그려주는 화가 객체 얻어오기
+                var context = canvas.getContext('2d');  //3d도 존재하지만 리소스를 많이 먹으므로 2d만 연습
+                
+                // 화가객체에게 원하는 그림을 그려달라고 요청
+
+                // 1. 화가에게 글씨 그려달라고 요청
+                // 글씨 스타일지정
+                context.fillStyle = "red";
+                context.font = "20px cursive";
+                context.fillText("Hello", 10, 40);  //도화지의 좌상단 기준으로 x:10, y:40 위치에 Hello 글씨 그리기
+                context.fillText("Hello", 0, 0);    //글씨의 좌하단 좌표이므로 안보임
+                context.fillText("Hello", 0, 20);   //좌상단에 보이게 하기(글씨크기만큼 y설정)
+                context.fillText("Hello", 0, 400);  //좌하단 위치
+
+                // 글씨를 윤관선으로 그리기
+                context.strokeStyle = "blue";   //윤곽선 색깔
+                context.strokeText("Hello", 100, 40);   //윤곽선 그리기
+
+                // 사각형 그리기
+                context.fillStyle = "green";
+                context.fillRect(10, 50, 100, 40);  //좌상단:10,50  너비:100  높이:40
+
+                context.strokeStyle = "green";   //윤곽선 색깔
+                context.strokeRect(120, 50, 100, 40);   //윤곽선으로된 사각형 그리기
+
+                // 직선 그리기
+                context.beginPath();    //선의 경로작업 시작
+                context.moveTo(10, 100);    //선의 시작지점 10, 100
+                context.lineTo(100, 150);   //목표 지점 100, 150
+                context.lineTo(150, 120);   //여러개면 거쳐가며 이동
+                context.stroke();   //위 경로로 선을 그려라. 이때 그려짐
+
+                // 그 밖의 도형들 - p.423~432 참고
+
+                // 이미지 그리기
+                var img = new Image();  //그림이미지를 관리하는 객체
+                img.src = "./html5_logo.png";
+                // 이미지는 로딩하는데 시간이 걸리므로
+                // 위에서 src로 이미지를 지장하자마자 drawImage()를 하면 안보일 가능성이 높음
+                // 이미지 로딩이 완료되는 것을 듣는 이벤트를 처리함
+                img.onload = function(){
+                    // 이 함수는 이미지 로딩이 완료되면 자동 실행됨
+                    context.drawImage(img, 10, 180);    //이미지의 좌상단 좌표(미입력시 0, 0)
+                    // 이미지의 사이즈를 조정하면서 그려내기
+                    context.drawImage(img, 10, 150, 100, 100);  //그려내는 이미지 사이즈(너비:100, 높이:100)
+                }
+                
+
+            }
+        </script>
+    </head>
+    <body onload="loaded()">
+        <!-- 프로그래머가 원하는 대로 화면을 그려내는 도화지 요소 -->
+        <canvas id="canvas1" width="300" height="400" style="border: 1px soild black;"></canvas>
+    </body>
+</html>
